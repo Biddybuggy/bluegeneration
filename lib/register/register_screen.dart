@@ -3,6 +3,7 @@ import 'package:bluegeneration/login/login_screen.dart';
 import 'package:dio/dio.dart';
 
 import '../constants.dart';
+import '../shared_utils/api_client.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -127,9 +128,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    final dio = Dio();
-                    await dio.post("$BASEURL/auth/register", data: {'email':emailcontroller.text,'name':namecontroller.text,'username': usernamecontroller.text, 'password': passwordcontroller.text});
-                    Navigator.pushNamed(context, "/login_screen");
+                    final apiClient = ApiClient();
+                    await apiClient.post(
+                      "/auth/register",
+                      data: {
+                        'name':namecontroller.text,
+                        'username':usernamecontroller.text,
+                        'email':emailcontroller.text,
+                        'password':passwordcontroller.text
+                      }
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
