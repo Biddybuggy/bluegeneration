@@ -1,9 +1,10 @@
-import 'package:bluegeneration/constants.dart';
+import 'package:bluegeneration/shared_utils/api_client.dart';
+import 'package:bluegeneration/shared_utils/loading_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:bluegeneration/login-and-registration/register_screen.dart';
-import 'package:dio/dio.dart';
+
 class LoginScreen extends StatefulWidget {
   static const routeName = "/login_screen";
+
   const LoginScreen({super.key});
 
   @override
@@ -25,7 +26,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text("Login", style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold)),
+                  const Text("Login",
+                      style:
+                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold)),
                   SizedBox(height: MediaQuery.of(context).size.height * 1 / 40),
                   Image.asset(
                     'images/logo.png',
@@ -69,15 +72,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: MediaQuery.of(context).size.height * 1 / 20),
                   ElevatedButton(
                     onPressed: () async {
-                      final dio = Dio();
-                      await dio.post("$BASEURL/auth/login", data: {'username': usernamecontroller.text, 'password': passwordcontroller.text});
+                      showLoadingDialog(context);
+
+                      final apiClient = ApiClient();
+                      await apiClient.post(
+                        "/auth/login",
+                        data: {
+                          'username': usernamecontroller.text,
+                          'password': passwordcontroller.text
+                        },
+                      );
+
+                      hideLoadingDialog(context);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                       fixedSize: const Size(300, 40),
                       shape: const StadiumBorder(),
                     ),
-                    child: const Text("Login", style: TextStyle(color: Colors.white, fontSize: 20)),
+                    child: const Text("Login",
+                        style: TextStyle(color: Colors.white, fontSize: 20)),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 1 / 20),
                   GestureDetector(
@@ -85,7 +99,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.pushNamed(context, '/register_screen');
                     },
                     child: const Text("Don't have an account? Register now.",
-                        style: TextStyle(fontSize: 20, color: Colors.blueAccent)),
+                        style:
+                            TextStyle(fontSize: 20, color: Colors.blueAccent)),
                   ),
                 ],
               ),

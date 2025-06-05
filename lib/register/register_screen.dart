@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bluegeneration/login-and-registration/login_screen.dart';
+import 'package:bluegeneration/login/login_screen.dart';
 import 'package:dio/dio.dart';
 
 import '../constants.dart';

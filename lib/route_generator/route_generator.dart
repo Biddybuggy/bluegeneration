@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:bluegeneration/login-and-registration/register_screen.dart';
+import 'package:bluegeneration/register/register_screen.dart';
 
-import '../login-and-registration/login_screen.dart';
-import '../screens/home_screen.dart';
+import '../login/login_screen.dart';
+import '../home/home_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bluegeneration/route_generator/route_generator.dart';
-import 'login-and-registration/login_screen.dart';
+import 'login/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
