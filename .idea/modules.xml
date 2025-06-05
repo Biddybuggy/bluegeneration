@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/bluegeneration.iml" filepath="$PROJECT_DIR$/bluegeneration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/bluegeneration_android.iml" filepath="$PROJECT_DIR$/android/bluegeneration_android.iml" />
     </modules>
   </component>
 </project>

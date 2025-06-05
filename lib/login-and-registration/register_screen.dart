@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bluegeneration/login-and-registration/login_screen.dart';
+import 'package:dio/dio.dart';
+
+import '../constants.dart';
+
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -122,8 +126,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height:MediaQuery.of(context).size.height*1/20,
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context,'/login_screen');
+                  onPressed: () async {
+                    final dio = Dio();
+                    await dio.post("$BASEURL/auth/register", data: {'email':emailcontroller.text,'name':namecontroller.text,'username': usernamecontroller.text, 'password': passwordcontroller.text});
+                    Navigator.pushNamed(context, "/login_screen");
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
