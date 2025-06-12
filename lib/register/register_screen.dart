@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:bluegeneration/shared_utils/loading_dialog.dart';
+
 import 'package:bluegeneration/login/login_screen.dart';
 import 'package:dio/dio.dart';
 
@@ -128,6 +130,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
+                    showLoadingDialog(context);
+
                     final apiClient = ApiClient();
                     await apiClient.post(
                       "/auth/register",
@@ -138,6 +142,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         'password':passwordcontroller.text
                       }
                     );
+
+                    hideLoadingDialog(context);
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,

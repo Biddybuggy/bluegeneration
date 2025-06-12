@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,7 +11,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+
+
   Widget build(BuildContext context) {
+    DateTime nowTime = DateTime.now();
+    String greeting = "";
+    int hours=nowTime.hour;
+    if (hours>=5 && hours<12){
+      greeting = "Good Morning";
+    } else if(hours>=12 && hours < 17){
+      greeting = "Good Afternoon";
+    } else {
+      greeting = "Good Evening";
+    }
+
     return SafeArea(
       child: Scaffold(
         body:Center(
@@ -21,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: SizedBox(
-                    child: const Text("Good morning, Dylan Jaya",
+                    child: Text(greeting + ", User!",
                         style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold)),
                   ),
                 ),
@@ -149,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    const snackBar = SnackBar(content: Text('This button doesn\'t work right now, but M&M supremacy is real.'));
+                    const snackBar = SnackBar(content: Text('This button doesn\'t work right now. Stay tuned!'));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                   style: ElevatedButton.styleFrom(
