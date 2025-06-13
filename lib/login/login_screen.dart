@@ -2,6 +2,10 @@ import 'package:bluegeneration/shared_utils/api_client.dart';
 import 'package:bluegeneration/shared_utils/loading_dialog.dart';
 import 'package:flutter/material.dart';
 
+
+// Username: dylanjaya100
+// Password: abcde12345
+
 class LoginScreen extends StatefulWidget {
   static const routeName = "/login_screen";
 
@@ -84,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
 
                       hideLoadingDialog(context);
+                      Navigator.pushNamed(context, "/home_screen", arguments:usernamecontroller.text);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,

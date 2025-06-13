@@ -144,6 +144,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     );
 
                     hideLoadingDialog(context);
+
+                    Navigator.pushNamed(context, "/login_screen");
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,

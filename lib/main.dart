@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:bluegeneration/route_generator/route_generator.dart';
 import 'login/login_screen.dart';
+import 'package:camera/camera.dart';
 
-void main() {
+late List<CameraDescription> cameras;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras  = await availableCameras();
   runApp(const MyApp());
 }
 

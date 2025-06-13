@@ -1,15 +1,27 @@
+import 'package:bluegeneration/donation/camera_screen.dart';
+import 'package:bluegeneration/donation/steps_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bluegeneration/register/register_screen.dart';
 
 import '../login/login_screen.dart';
 import '../home/home_screen.dart';
+import '../main.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case HomeScreen.routeName:
+      case CameraScreen.routeName:
         return MaterialPageRoute(
-          builder:(context) => const HomeScreen(),
+          builder:(context) => CameraScreen(cameras: cameras),
+        );
+      case StepsScreen.routeName:
+        return MaterialPageRoute(
+          builder:(context) => const StepsScreen(),
+        );
+      case HomeScreen.routeName:
+        final args = settings.arguments;
+        return MaterialPageRoute(
+          builder:(context) => HomeScreen(username:args as String),
         );
       case RegisterScreen.routeName:
         return MaterialPageRoute(

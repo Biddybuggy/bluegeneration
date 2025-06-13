@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+  const HomeScreen({super.key, required this.username});
+  final String username;
   @override
   static const routeName = "/home_screen";
   State<HomeScreen> createState() => _HomeScreenState();
@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: SizedBox(
-                    child: Text(greeting + ", User!",
+                    child: Text("$greeting, ${widget.username}!",
                         style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold)),
                   ),
                 ),
@@ -163,8 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    const snackBar = SnackBar(content: Text('This button doesn\'t work right now. Stay tuned!'));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    Navigator.pushNamed(context, "/steps_screen");
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
