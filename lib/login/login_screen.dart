@@ -2,7 +2,6 @@ import 'package:bluegeneration/shared_utils/api_client.dart';
 import 'package:bluegeneration/shared_utils/loading_dialog.dart';
 import 'package:flutter/material.dart';
 
-
 // Username: dylanjaya100
 // Password: abcde12345
 
@@ -79,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       showLoadingDialog(context);
 
                       final apiClient = ApiClient();
-                      await apiClient.post(
+                      final response = await apiClient.post(
                         "/auth/login",
                         data: {
                           'username': usernamecontroller.text,
@@ -88,7 +87,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
 
                       hideLoadingDialog(context);
-                      Navigator.pushNamed(context, "/home_screen", arguments:usernamecontroller.text);
+
+                      if (response.statusCode == 200) {
+                        Navigator.pushNamed(
+                          context,
+                          "/home_screen",
+                          arguments: usernamecontroller.text,
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              "Login failed, check your credentials",
+                            ),
+                          ),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
