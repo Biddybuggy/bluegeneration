@@ -10,7 +10,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late String _storedUsername;
+
   @override
+  void initState() {
+    super.initState();
+    _storedUsername = widget.username;
+  }
 
 
   Widget build(BuildContext context) {
@@ -35,8 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: SizedBox(
-                    child: Text("$greeting, ${widget.username}!",
-                        style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold)),
+                    child: Text("$greeting, ${_storedUsername}!",
+                        style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold), textAlign:TextAlign.center,)
                   ),
                 ),
                 SizedBox(
