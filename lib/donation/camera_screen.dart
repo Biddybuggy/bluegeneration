@@ -1,3 +1,8 @@
+// Loading screen to avoid spam after user presses I'm satisfied
+// API for posting using backend controller
+// Implement Reports Route (need user id, save user id in session)
+// Shared Preference
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
