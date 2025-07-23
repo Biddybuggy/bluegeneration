@@ -47,6 +47,7 @@ class _CameraScreenState extends State<CameraScreen> {
       }
     });
   }
+
   @override
   void initState() {
     super.initState();
