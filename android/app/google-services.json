@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "663424925925",
+    "project_id": "bluegen-22ad6",
+    "storage_bucket": "bluegen-22ad6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663424925925:android:ffdb2d9a6277c6491bd40c",
+        "android_client_info": {
+          "package_name": "com.example.bluegeneration"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0NPTXnxHbPcqrSXfyZw_JeA7mLsQblYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

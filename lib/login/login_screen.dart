@@ -1,6 +1,7 @@
 import 'package:bluegeneration/shared_utils/api_client.dart';
 import 'package:bluegeneration/shared_utils/loading_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Username: dylanjaya100
 // Password: abcde12345
@@ -85,23 +86,27 @@ class _LoginScreenState extends State<LoginScreen> {
                           'password': passwordcontroller.text
                         },
                       );
-
-                      hideLoadingDialog(context);
-
-                      if (response.statusCode == 200) {
-                        Navigator.pushNamed(
-                          context,
-                          "/home_screen",
-                          arguments: usernamecontroller.text,
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              "Login failed, check your credentials",
+                      final responseMap = response.data as Map<String, String>;
+                      // final pref = await SharedPreferences.getInstance();
+                      // pref.setString("user_id", responseMap["user_id"] ?? "");
+                      // pref.setString("name", responseMap["name"] ?? "");
+                      if (mounted) { // Not proceeding to home screen
+                        hideLoadingDialog(context);
+                        if (response.statusCode == 200) {
+                          Navigator.pushNamed(
+                            context,
+                            "/home_screen",
+                            arguments: usernamecontroller.text,
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                "Login failed, check your credentials",
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(
