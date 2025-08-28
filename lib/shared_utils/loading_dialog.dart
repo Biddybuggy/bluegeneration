@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-void showLoadingDialog(BuildContext context) {
-  showDialog(
+Future<void> showLoadingDialog(BuildContext context) async {
+  await showDialog(
     context: context,
     barrierDismissible: false, // User cannot dismiss by tapping outside
     builder: (BuildContext context) {

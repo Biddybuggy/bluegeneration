@@ -75,9 +75,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 1 / 20),
                   ElevatedButton(
-                    onPressed: () async {
+                    onPressed: ()  async {
                       showLoadingDialog(context);
-
                       final apiClient = ApiClient();
                       final response = await apiClient.post(
                         "/auth/login",
@@ -86,12 +85,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           'password': passwordcontroller.text
                         },
                       );
-                      final responseMap = response.data as Map<String, String>;
-                      // final pref = await SharedPreferences.getInstance();
-                      // pref.setString("user_id", responseMap["user_id"] ?? "");
-                      // pref.setString("name", responseMap["name"] ?? "");
+                      print("RESPONSE: ${response.data} ");
+                      final responseMap = response.data as Map<String, dynamic>;
+                      final pref = await SharedPreferences.getInstance();
+                      pref.setString("user_id", responseMap["user_id"] ?? "");
+                      pref.setString("name", responseMap["name"] ?? "");
+                      hideLoadingDialog(context);
                       if (mounted) { // Not proceeding to home screen
-                        hideLoadingDialog(context);
                         if (response.statusCode == 200) {
                           Navigator.pushNamed(
                             context,
