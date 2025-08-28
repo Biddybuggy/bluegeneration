@@ -53,10 +53,10 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC0NPTXnxHbPcqrSXfyZw_JeA7mLsQblYg',
-    appId: '1:663424925925:android:ffdb2d9a6277c6491bd40c',
-    messagingSenderId: '663424925925',
-    projectId: 'bluegen-22ad6',
-    storageBucket: 'bluegen-22ad6.firebasestorage.app',
+    apiKey: 'private',
+    appId: 'private',
+    messagingSenderId: 'private',
+    projectId: 'private',
+    storageBucket: 'private',
   );
 }
