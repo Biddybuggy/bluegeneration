@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_core;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,6 +23,7 @@ class ImageViewPage extends StatefulWidget {
 }
 
 class _ImageViewPageState extends State<ImageViewPage> {
+  TextEditingController countcontroller = TextEditingController();
   List<GarbageType> garbage_types = [];
   GarbageType? selectedGarbageType;
 
@@ -53,8 +55,7 @@ class _ImageViewPageState extends State<ImageViewPage> {
               child: DropdownMenu<GarbageType>(
                 initialSelection: null,
                 hintText: "Select Garbage Type",
-                width: MediaQuery.of(context).size.width*8/10,
-
+                width: MediaQuery.of(context).size.width * 8 / 10,
                 onSelected: (GarbageType? value) {
                   // This is called when the user selects an item.
                   setState(() {
@@ -64,6 +65,27 @@ class _ImageViewPageState extends State<ImageViewPage> {
                 dropdownMenuEntries: garbage_types
                     .map((e) => DropdownMenuEntry(value: e, label: e.name))
                     .toList(),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width:MediaQuery.of(context).size.width * 8 / 10,
+            child: TextField(
+              controller: countcontroller,
+              keyboardType: TextInputType.numberWithOptions(decimal:true),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*')),
+              ],
+              decoration: const InputDecoration(
+                hintText: "Count (kg/L)",
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black, width: 3),
+                  gapPadding: 10,
+                ),
+                hintStyle: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
           ),
@@ -105,6 +127,8 @@ class _ImageViewPageState extends State<ImageViewPage> {
                                   data: {
                                     'photo': refString,
                                     'user_id': user_id,
+                                    'garbage_type_id':selectedGarbageType?.id,
+                                    'count':countcontroller.text,
                                   },
                                 );
                                 hideLoadingDialog(context);
