@@ -75,24 +75,38 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 1 / 20),
                   ElevatedButton(
-                    onPressed: ()  async {
+                    onPressed: () async {
+                      if (usernamecontroller.text.isEmpty || passwordcontroller.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Please fill in both username and password."),
+                          ),
+                        );
+                        return;
+                      }
+
                       showLoadingDialog(context);
                       final apiClient = ApiClient();
-                      final response = await apiClient.post(
-                        "/auth/login",
-                        data: {
-                          'username': usernamecontroller.text,
-                          'password': passwordcontroller.text
-                        },
-                      );
-                      print("RESPONSE: ${response.data} ");
-                      final responseMap = response.data as Map<String, dynamic>;
-                      final pref = await SharedPreferences.getInstance();
-                      pref.setString("user_id", responseMap["user_id"] ?? "");
-                      pref.setString("name", responseMap["name"] ?? "");
-                      hideLoadingDialog(context);
-                      if (mounted) { // Not proceeding to home screen
+                      try {
+                        final response = await apiClient.post(
+                          "/auth/login",
+                          data: {
+                            'username': usernamecontroller.text,
+                            'password': passwordcontroller.text,
+                          },
+                        );
+
+                        hideLoadingDialog(context);
+
+                        if (!mounted) return;
+
                         if (response.statusCode == 200) {
+                          final responseMap = response.data as Map<String, dynamic>;
+
+                          final pref = await SharedPreferences.getInstance();
+                          pref.setString("user_id", responseMap["user_id"] ?? "");
+                          pref.setString("name", responseMap["name"] ?? "");
+
                           Navigator.pushNamed(
                             context,
                             "/home_screen",
@@ -101,12 +115,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text(
-                                "Login failed, check your credentials",
-                              ),
+                              content: Text("Invalid credentials, please try again."),
                             ),
                           );
                         }
+                      } catch (e) {
+                        hideLoadingDialog(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Login failed: $e")),
+                        );
                       }
                     },
                     style: ElevatedButton.styleFrom(

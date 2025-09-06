@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import '../shared_utils/api_client.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.username});
@@ -12,13 +16,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late String _storedUsername;
+  String? _email; // store email
 
-  // Replace these with your real values / state from backend, provider, etc.
-  int plasticBottles = 128;
-  int otherInorganic = 57;
-  double cookingOilLiters = 12.3;
-  int tablesCreated = 4;
-  double co2ReducedKg = 256.7;
+  double plasticBottles = 0;
+  double otherInorganic = 0;
+  double cookingOilLiters = 0;
+  double tablesCreated = 0;
+  double co2ReducedKg = 0;
 
   final NumberFormat numFmt = NumberFormat.decimalPattern();
   final NumberFormat compactFmt = NumberFormat.compact();
@@ -27,6 +31,66 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _storedUsername = widget.username;
+    _fetchEmail(); // fetch email on load
+  }
+
+  Future<void> _fetchEmail() async {
+    final apiClient = ApiClient();
+    try {
+      final response = await apiClient.post(
+        "/auth/get_email",
+        data: {"username": _storedUsername},
+      );
+
+      final email = response.data['email'];
+      setState(() {
+        _email = email;
+      });
+      print("Fetched email: $_email");
+
+      // 👇 Call progress fetch only after email is ready
+      await _fetchUserProgress();
+
+    } catch (e) {
+      print("Error fetching email: $e");
+    }
+  }
+
+  Future<void> _fetchUserProgress() async {
+    if (_email == null) {
+      print("⚠️ Cannot fetch progress, email is null");
+      return;
+    }
+
+    final apiClient = ApiClient();
+    try {
+      final response = await apiClient.post(
+        "/report/fetchProgressDetails",
+        data: {"user_id": _email},
+      );
+
+      final garbageTypes = response.data["garbage_types"];
+      final userProgress = response.data["user_progress"];
+
+      print("Garbage types: $garbageTypes");
+      print("User progress: $userProgress");
+
+      // Map progress by garbage type
+      Map<int, double> totals = {};
+      for (var entry in userProgress) {
+        final typeId = entry["garbage_type_id"] as int;
+        final count = (entry["count"] as num).toDouble(); // now handles decimals
+        totals[typeId] = (totals[typeId] ?? 0) + count;
+      }
+
+      setState(() {
+        plasticBottles = totals[1] ?? 0.0;
+        otherInorganic = totals[2] ?? 0.0;
+        // Add cookingOilLiters, etc. if your backend returns those types
+      });
+    } catch (e) {
+      print("Error fetching user progress: $e");
+    }
   }
 
   @override
@@ -78,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 // PROGRESS CARDS
                 SizedBox(
-                  height: 140, // fixed height for cards + padding
+                  height: 140,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -92,12 +156,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: "Other Inorganic Waste (kg)",
                           value: numFmt.format(otherInorganic),
                         ),
-                        const SizedBox(width:12),
+                        const SizedBox(width: 12),
                         StatCard(
                           title: "Cooking Oil (L)",
                           value: numFmt.format(cookingOilLiters),
                         ),
-
                       ],
                     ),
                   ),
@@ -112,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 // IMPACT CARDS
                 SizedBox(
-                  height: 140, // fixed height for cards + padding
+                  height: 140,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -126,7 +189,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: "CO₂ Emissions Reduced (kg)",
                           value: numFmt.format(co2ReducedKg),
                         ),
-                        // 👉 add more StatCards if needed, scrolling will handle overflow
                       ],
                     ),
                   ),
@@ -156,8 +218,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-/// A small, reusable stat card that keeps the title and shows a big number.
-/// Uses Wrap + constrained size + ellipsis to prevent overflows.
 class StatCard extends StatelessWidget {
   const StatCard({
     super.key,
@@ -173,7 +233,7 @@ class StatCard extends StatelessWidget {
     return ConstrainedBox(
       constraints: const BoxConstraints(
         minWidth: 120,
-        maxWidth: 170, // keeps lines from getting too long on tablets
+        maxWidth: 170,
         minHeight: 110,
       ),
       child: Container(
@@ -190,7 +250,6 @@ class StatCard extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Title (wrap to up to 2 lines, ellipsize if still too long)
             Text(
               title,
               textAlign: TextAlign.center,
@@ -202,7 +261,6 @@ class StatCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 6),
-            // Big number – FittedBox ensures it scales down to fit if needed
             FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
