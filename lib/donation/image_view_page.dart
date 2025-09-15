@@ -105,7 +105,7 @@ class _ImageViewPageState extends State<ImageViewPage> {
                         try {
                           File file = File(widget.imagePath);
                           imageRef.putFile(file).snapshotEvents.listen(
-                            (event) async {
+                                (event) async {
                               if (event.state == TaskState.running) {
                                 showLoadingDialog(context);
                               } else if (event.state == TaskState.error) {
@@ -119,7 +119,7 @@ class _ImageViewPageState extends State<ImageViewPage> {
                               } else {
                                 final apiClient = ApiClient();
                                 final pref =
-                                    await SharedPreferences.getInstance();
+                                await SharedPreferences.getInstance();
                                 final user_id = pref.getString("user_id");
                                 final response = await apiClient.post(
                                   "/report/insertReport",

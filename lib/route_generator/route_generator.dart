@@ -24,7 +24,7 @@ class RouteGenerator {
       case HomeScreen.routeName:
         final args = settings.arguments;
         return MaterialPageRoute(
-          builder:(context) => HomeScreen(username:args as String),
+          builder:(context) => HomeScreen(),
         );
       case RegisterScreen.routeName:
         return MaterialPageRoute(

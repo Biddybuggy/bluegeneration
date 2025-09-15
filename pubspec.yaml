@@ -39,6 +39,7 @@ dependencies:
   dio: any
   firebase_storage: any
   firebase_core: ^3.4.0
+  firebase_app_check: any
   shared_preferences: ^2.2.3
 
 dev_dependencies:

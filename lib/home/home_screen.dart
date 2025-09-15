@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../shared_utils/api_client.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.username});
-  final String username;
+  const HomeScreen({super.key});
 
   @override
   static const routeName = "/home_screen";
@@ -15,23 +15,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late String _storedUsername;
+  String? _storedUsername;
   String? _email; // store email
 
   double plasticBottles = 0;
   double otherInorganic = 0;
   double cookingOilLiters = 0;
-  double tablesCreated = 0;
-  double co2ReducedKg = 0;
 
   final NumberFormat numFmt = NumberFormat.decimalPattern();
   final NumberFormat compactFmt = NumberFormat.compact();
 
   @override
-  void initState() {
+  void initState()  {
     super.initState();
-    _storedUsername = widget.username;
-    _fetchEmail(); // fetch email on load
+    SharedPreferences.getInstance().then((value) {
+      _storedUsername = value.getString("username") ?? "";
+      _fetchEmail(); // fetch email on load
+    });
   }
 
   Future<void> _fetchEmail() async {
@@ -86,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         plasticBottles = totals[1] ?? 0.0;
         otherInorganic = totals[2] ?? 0.0;
+        cookingOilLiters = totals[3] ?? 0.0;
         // Add cookingOilLiters, etc. if your backend returns those types
       });
     } catch (e) {
@@ -102,6 +103,10 @@ class _HomeScreenState extends State<HomeScreen> {
         : (hours >= 12 && hours < 17)
         ? "Good Afternoon"
         : "Good Evening";
+    double tablesCreated = (plasticBottles / 10.0) + (otherInorganic / 20.0);
+    double co2ReducedKg = (plasticBottles * 2.5) +
+        (otherInorganic * 1.5) +
+        (cookingOilLiters * 2.3);
 
     return SafeArea(
       child: Scaffold(
@@ -197,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: MediaQuery.of(context).size.height * 1 / 30),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, "/steps_screen");
+                    Navigator.pushNamed(context, "/steps_screen").then((value) {_fetchUserProgress();});
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,

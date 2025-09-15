@@ -106,11 +106,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           final pref = await SharedPreferences.getInstance();
                           pref.setString("user_id", responseMap["user_id"] ?? "");
                           pref.setString("name", responseMap["name"] ?? "");
+                          pref.setString("username",responseMap["username"] ?? "");
 
                           Navigator.pushNamed(
                             context,
                             "/home_screen",
-                            arguments: usernamecontroller.text,
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
