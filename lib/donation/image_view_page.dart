@@ -97,6 +97,18 @@ class _ImageViewPageState extends State<ImageViewPage> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
+
+                        if (selectedGarbageType == null || countcontroller.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  "Failed to upload photo.",
+                                ),
+                              ),
+                          );
+                          return;
+                        }
+
                         final storageRef = FirebaseStorage.instance.ref();
                         final refString =
                             "image_${DateTime.now().toIso8601String()}.png";
