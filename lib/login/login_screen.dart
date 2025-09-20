@@ -3,9 +3,6 @@ import 'package:bluegeneration/shared_utils/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Username: dylanjaya100
-// Password: abcde12345
-
 class LoginScreen extends StatefulWidget {
   static const routeName = "/login_screen";
 
