@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
         : (hours >= 12 && hours < 17)
         ? "Good Afternoon"
         : "Good Evening";
-    double tablesCreated = (plasticBottles / 10.0) + (otherInorganic / 20.0);
+    double tablesCreated = (plasticBottles / 15.0);
     double co2ReducedKg = (plasticBottles * 2.5) +
         (otherInorganic * 1.5) +
         (cookingOilLiters * 2.3);
@@ -211,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Row(
                       children: [
                         StatCard(
-                          title: "Tables Created",
+                          title: "School Tables Created",
                           value: numFmt.format(tablesCreated),
                         ),
                         const SizedBox(width: 12),
