@@ -45,7 +45,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: MediaQuery.of(context).size.height * 1 / 15,
                     child: TextField(
                       controller: usernamecontroller,
-                      keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         hintText: "Username",
                         border: OutlineInputBorder(
@@ -108,9 +107,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           pref.setString("name", responseMap["name"] ?? "");
                           pref.setString("username",responseMap["username"] ?? "");
 
-                          Navigator.pushNamed(
+                          Navigator.pushNamedAndRemoveUntil(
                             context,
-                            "/home_screen",
+                            "/",(route) => route.settings.name == "/",
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(

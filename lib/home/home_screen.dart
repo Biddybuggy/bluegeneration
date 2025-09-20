@@ -10,7 +10,7 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  static const routeName = "/home_screen";
+  static const routeName = "/";
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
@@ -33,6 +33,22 @@ class _HomeScreenState extends State<HomeScreen> {
       _fetchEmail(); // fetch email on load
     });
   }
+
+  Future<void> _logout(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // Clear user data
+    await prefs.remove("user_id");
+    await prefs.remove("username"); // clear other keys if needed
+
+    // Navigate to Login screen and clear navigation stack
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      "/login_screen",  // or LoginScreen.routeName if you defined it
+          (Route<dynamic> route) => false,
+    );
+  }
+
 
   Future<void> _fetchEmail() async {
     final apiClient = ApiClient();
@@ -110,6 +126,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Home"),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () => _logout(context),
+            ),
+          ],
+        ),
         body: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),

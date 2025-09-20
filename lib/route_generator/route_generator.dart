@@ -38,8 +38,8 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => Container(
             color: Colors.white,
-            child: const Center(
-              child: Text("Error, route not implemented."),
+            child: Center(
+              child: Text("Error, route not implemented. ${settings.name}"),
             ),
           ),
         );

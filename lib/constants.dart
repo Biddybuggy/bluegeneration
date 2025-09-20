@@ -1,1 +1,1 @@
-const String BASEURL = "http://10.0.2.2:5001/bluegen-22ad6/us-central1/api";
+const String BASEURL = "https://api-72obzk6zsq-uc.a.run.app";
