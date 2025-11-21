@@ -1,4 +1,4 @@
-package com.example.bluegeneration
+package com.dylanjaya.bluegeneration
 
 import io.flutter.embedding.android.FlutterActivity
 
