@@ -35,9 +35,10 @@ dependencies:
   cupertino_icons: ^1.0.6
   dio: any
   firebase_storage: any
-  firebase_core: ^3.4.0
+  firebase_core: ^4.2.1
   firebase_app_check: any
-  shared_preferences: ^2.2.3
+  shared_preferences: ^2.5.3
+  flutter_plugin_android_lifecycle: ^2.0.19
 
 dev_dependencies:
   flutter_test:
@@ -47,9 +48,9 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^6.0.0
   build_runner: ^2.1.11
-  freezed: ^2.0.3+1
+  freezed: ^3.2.3
   json_serializable: any
   intl: any
   camera: any

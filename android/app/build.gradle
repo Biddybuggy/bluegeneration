@@ -36,7 +36,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace 'com.dylanjaya.bluegeneration'
-    compileSdk 35
+    compileSdk 36
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -55,7 +55,7 @@ android {
     defaultConfig {
         applicationId 'com.dylanjaya.bluegeneration'
         minSdkVersion flutter.minSdkVersion
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
