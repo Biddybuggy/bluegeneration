@@ -27,7 +27,7 @@ class _CameraScreenState extends State<CameraScreen> {
   late XFile? imageFile;
 
   void initCamera() {
-    controller = CameraController(widget.cameras[0], ResolutionPreset.max);
+    controller = CameraController(widget.cameras[1], ResolutionPreset.max);
     controller?.initialize().then((_) {
       if (!mounted) {
         return;

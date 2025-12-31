@@ -122,7 +122,13 @@ class _HomeScreenState extends State<HomeScreen> {
     double tablesCreated = (plasticBottles / 15.0);
     double co2ReducedKg = (plasticBottles * 2.5) +
         (otherInorganic * 1.5) +
-        (cookingOilLiters * 2.3);
+        (cookingOilLiters * 1.8);
+    double energySaved = (plasticBottles * 2.0) +  (otherInorganic * 3) + (cookingOilLiters * 9); // kWh
+    double phoneCharges = (plasticBottles * 200) + (otherInorganic * 300) + (cookingOilLiters * 900); // UNITS
+    double waterSaved = (plasticBottles * 60 ) + (otherInorganic * 10) ; // LITERS
+    double landfillVolumeSaved = (plasticBottles * 4) + (otherInorganic * 2) ;// LITERS
+    double biodieselProduced = (cookingOilLiters * 0.9);
+    double preventedWaterContamination = (cookingOilLiters * 1000);
 
     return SafeArea(
       child: Scaffold(
@@ -218,6 +224,36 @@ class _HomeScreenState extends State<HomeScreen> {
                         StatCard(
                           title: "CO₂ Emissions Reduced (kg)",
                           value: numFmt.format(co2ReducedKg),
+                        ),
+                        const SizedBox(width: 12),
+                        StatCard(
+                          title: "Energy Saved (kWh)",
+                          value: numFmt.format(energySaved),
+                        ),
+                        const SizedBox(width: 12),
+                        StatCard(
+                          title: "Phone Charges Enabled",
+                          value: numFmt.format(phoneCharges),
+                        ),
+                        const SizedBox(width: 12),
+                        StatCard(
+                          title: "Water Saved (L)",
+                          value: numFmt.format(waterSaved),
+                        ),
+                        const SizedBox(width: 12),
+                        StatCard(
+                          title: "Landfill Space Emptied (L)",
+                          value: numFmt.format(landfillVolumeSaved),
+                        ),
+                        const SizedBox(width: 12),
+                        StatCard(
+                          title: "Biodiesel Produced (L)",
+                          value: numFmt.format(biodieselProduced),
+                        ),
+                        const SizedBox(width: 12),
+                        StatCard(
+                          title: "Prevented Water Contamination (L)",
+                          value: numFmt.format(preventedWaterContamination),
                         ),
                       ],
                     ),
